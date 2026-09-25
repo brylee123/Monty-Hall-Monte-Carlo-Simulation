@@ -1,8 +1,27 @@
-# Monty-Hall-Monte-Carlo-Simulation
-Monty Hall problem simulated through 1 million (and resizable) trials!
+# Monty Hall Monte Carlo Simulation
 
-Source (http://mathworld.wolfram.com/MontyHallProblem.html): 
+Choose one of three doors. The host knows where the car is, always opens a different door hiding a goat, and offers you the remaining unopened door. Staying wins when your first choice was the car (about one third of rounds). Switching wins when your first choice was a goat (about two thirds).
 
-The Monty Hall problem is named for its similarity to the Let's Make a Deal television game show hosted by Monty Hall. The problem is stated as follows. Assume that a room is equipped with three doors. Behind two are goats, and behind the third is a shiny new car. You are asked to pick a door, and will win whatever is behind it. Let's say you pick door 1. Before the door is opened, however, someone who knows what's behind the doors (Monty Hall) opens one of the other two doors, revealing a goat, and asks you if you wish to change your selection to the third door (i.e., the door which neither you picked nor he opened). The Monty Hall problem is deciding whether you do.
+## Browser visualizer
 
-The correct answer is that you do want to switch. If you do not switch, you have the expected 1/3 chance of winning the car, since no matter whether you initially picked the correct door, Monty will show you a door with a goat. But after Monty has eliminated one of the doors for you, you obviously do not improve your chances of winning to better than 1/3 by sticking with your original choice. If you now switch doors, however, there is a 2/3 chance you will win the car (counterintuitive though it seems).
+Open [index.html](index.html) in a modern browser. No installation or server is required.
+
+- **Play one round:** Choose a door, watch the host reveal a goat, then stay or switch.
+- **Run the experiment:** Run from 1 to 100 million trials. Progress, win counts, and a convergence chart update as the simulation runs. You can stop a run at any time.
+- **Presets:** Choose 1,000, 1 million, 10 million, or 100 million trials.
+
+The large simulation runs in a Web Worker to keep the page responsive. Each trial randomly places the car and chooses a first door. Because the host always reveals an unchosen goat, staying wins exactly when that first choice was the car; switching wins in every other round. The worker counts that equivalent outcome directly. Results differ between runs.
+
+## Python command line
+
+Use Python 3.10 or later:
+
+```sh
+python montyhall.py
+python montyhall.py --trials 10000000
+python montyhall.py --trials 100000 --seed 42
+```
+
+The default is 1 million trials. `--seed` makes results reproducible, and `--trials` accepts any positive integer. The Python simulation explicitly models the host opening an eligible goat door, then checks the remaining choice.
+
+Further reading: [Monty Hall problem on MathWorld](https://mathworld.wolfram.com/MontyHallProblem.html).
