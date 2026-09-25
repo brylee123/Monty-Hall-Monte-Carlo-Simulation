@@ -22,7 +22,7 @@
 const $=id=>document.getElementById(id);
 const fmt=new Intl.NumberFormat();
 let round, worker=null, points=[], target=1000000;
-function newRound(){if(!round||round.stage!=='chosen'){round={car:Math.floor(Math.random()*3),choice:null,revealed:null,stage:'pick'};renderRound();$('demo-message').textContent='Choose one of the three doors.'}}
+function newRound(){round={car:Math.floor(Math.random()*3),choice:null,revealed:null,stage:'pick'};renderRound();$('demo-message').textContent='Choose one of the three doors.'}
 function renderRound(){
   $('doors').replaceChildren();
   for(let i=0;i<3;i++){
