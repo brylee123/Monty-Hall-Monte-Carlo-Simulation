@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0e1424">
+<title>Monty Hall · Probability Lab</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#edf2ff;background:#0d1323;font-synthesis:none}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 8% 0%,#23375b 0,transparent 35%),radial-gradient(circle at 95% 20%,#242953 0,transparent 40%),#0d1323}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #74e0e0;outline-offset:3px}.shell{max-width:1180px;margin:auto;padding:42px 22px 80px}.eyebrow{color:#8debd0;font-size:.75rem;text-transform:uppercase;letter-spacing:.2em;font-weight:800}h1{font-size:clamp(2.6rem,6vw,4.7rem);line-height:1.04;letter-spacing:-.055em;margin:13px 0 18px}.lead{max-width:750px;color:#b0bdd6;line-height:1.65;font-size:1.1rem;margin:0 0 34px}.panel{background:#182239;border:1px solid #374664;border-radius:22px;box-shadow:0 18px 55px #04091940}.section-title{margin:0;font-size:1.22rem}.sub{color:#a8b8d2;font-size:.9rem;line-height:1.5}.btn{border:1px solid #5a6e8b;color:#f4f7ff;background:#263550;border-radius:12px;padding:11px 17px;font-weight:750;transition:background .15s,transform .15s}.btn:hover{background:#334768;transform:translateY(-2px)}.btn.primary{background:#85e5cc;color:#132b32;border-color:#85e5cc}.btn.primary:hover{background:#a5f1db}.btn:disabled{opacity:.48;cursor:default;transform:none}.top-grid{display:grid;grid-template-columns:1fr 1.12fr;gap:18px}.demo,.sim{padding:25px}.doors{display:flex;gap:12px;margin:24px 0}.door{flex:1;min-width:0;min-height:165px;border:2px solid #526481;border-radius:17px;background:linear-gradient(145deg,#344667,#1d2b46);color:#f6f8ff;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:11px}.door:hover:not(:disabled){background:#435b7c}.door.selected{border-color:#ffc180;box-shadow:0 0 0 3px #ffc18033}.door.open{background:#26394b;border-color:#83a5ad}.door .icon{font-size:2.8rem;line-height:1}.door .name{font-weight:800}.door .flag{font-size:.78rem;color:#ffcd99;min-height:1em;text-align:center}.door:disabled{cursor:default}.demo-actions{display:flex;gap:9px;flex-wrap:wrap}.demo-message{color:#d9e6fa;min-height:3.2em;line-height:1.5;margin:16px 0 0}.demo-result{font-weight:750;color:#a9efcd}.config{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin:22px 0 14px;align-items:end}label{color:#c5d2e9;font-size:.86rem;font-weight:700}label span{display:block;margin-bottom:8px}input{width:100%;min-height:46px;border:1px solid #617392;border-radius:11px;background:#0d172a;color:#fff;padding:10px 13px}.presets{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}.presets button{border:1px solid #526581;background:#22314d;border-radius:999px;color:#d9e6f8;padding:7px 13px}.presets button:hover{background:#364d6c}.progress-track{height:12px;border-radius:99px;background:#0d182e;overflow:hidden;border:1px solid #455574}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#f4ad79,#8be2cd);transition:width .1s}.progress-line{display:flex;justify-content:space-between;gap:10px;color:#aabbd4;font-size:.84rem;margin:9px 0 18px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:11px}.stat{border:1px solid #3e4d69;border-radius:15px;padding:17px;background:#111c31}.stat .label{font-size:.78rem;color:#b2c0da;text-transform:uppercase;letter-spacing:.1em;font-weight:750}.stat .percent{font-size:clamp(1.7rem,3vw,2.7rem);font-weight:850;letter-spacing:-.05em;margin:5px 0}.stat.stay .percent{color:#ffba86}.stat.switch .percent{color:#94ead0}.stat .count{color:#b3c1d7;font-size:.83rem}.chart-panel{padding:25px;margin-top:18px}.chart-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}.legend{display:flex;gap:15px;color:#becce0;font-size:.83rem}.swatch{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}.chart-wrap{position:relative;height:350px;margin-top:18px}canvas{display:block;width:100%;height:100%}.note{margin:22px 0 0;color:#afbdd5;line-height:1.6;font-size:.9rem}.note strong{color:#edf2ff}.error{color:#ffc6a1;min-height:1.2em;font-size:.87rem;margin:10px 0 0}@media(max-width:800px){.top-grid{grid-template-columns:1fr}}@media(max-width:500px){.shell{padding:28px 14px 55px}.demo,.sim,.chart-panel{padding:18px}.door{min-height:135px}.door .icon{font-size:2rem}.config{grid-template-columns:1fr}.chart-wrap{height:290px}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body><main class="shell">
+<div class="eyebrow">Interactive probability lab</div><h1>Should you switch?</h1><p class="lead">Pick a door. The host reveals a goat behind another door. Then run thousands or millions of rounds to watch the advantage of switching settle near two thirds.</p>
+<div class="top-grid">
+<section class="panel demo" aria-labelledby="demo-heading"><h2 class="section-title" id="demo-heading">Play one round</h2><div class="sub">The host knows where the car is and never opens your chosen door.</div><div class="doors" id="doors"></div><div class="demo-actions"><button class="btn primary" id="stay" disabled>Stay</button><button class="btn" id="switch" disabled>Switch</button><button class="btn" id="new-round">New round</button></div><p class="demo-message" id="demo-message" aria-live="polite">Choose one of the three doors.</p></section>
+<section class="panel sim" aria-labelledby="sim-heading"><h2 class="section-title" id="sim-heading">Run the experiment</h2><div class="sub">Each trial places the car and selects a first door at random. The host reveals a goat, then both strategies are scored against the same round.</div><div class="config"><label><span>Number of trials</span><input type="number" id="trial-count" min="1" max="100000000" step="1" value="1000000" inputmode="numeric"></label><button class="btn primary" id="run">Run trials</button></div><div class="presets"><button type="button" data-count="1000">1,000</button><button type="button" data-count="1000000">1 million</button><button type="button" data-count="10000000">10 million</button><button type="button" data-count="100000000">100 million</button></div><div class="progress-track" role="progressbar" id="progress" aria-label="Trials completed" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="fill"></div></div><div class="progress-line"><span id="progress-text" aria-live="polite">Ready to run</span><span id="progress-percent">0%</span></div><div class="stats"><div class="stat stay"><div class="label">Stay wins</div><div class="percent" id="stay-rate">—</div><div class="count" id="stay-count">Expected: 33.33%</div></div><div class="stat switch"><div class="label">Switch wins</div><div class="percent" id="switch-rate">—</div><div class="count" id="switch-count">Expected: 66.67%</div></div></div><p class="error" id="error" role="alert"></p></section>
+</div>
+<section class="panel chart-panel" aria-labelledby="chart-heading"><div class="chart-top"><div><h2 class="section-title" id="chart-heading">Win rates as trials accumulate</h2><div class="sub">Dashed lines mark the expected probabilities.</div></div><div class="legend"><span><i class="swatch" style="background:#ffba86"></i>Stay</span><span><i class="swatch" style="background:#94ead0"></i>Switch</span></div></div><div class="chart-wrap"><canvas id="chart" role="img" aria-label="Line chart showing stay and switch win rates over completed trials"></canvas></div></section>
+<p class="note"><strong>Why switching works:</strong> Your first pick has a 1 in 3 chance of hiding the car. If it is wrong (2 in 3 rounds), the informed host must reveal the other goat, leaving the car behind the only unopened door. The simulation uses this exact host rule. Results vary slightly each run; the lines approach 33.33% and 66.67% with enough trials.</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const fmt=new Intl.NumberFormat();
+let round, worker=null, points=[], target=1000000;
+function newRound(){if(!round||round.stage!=='chosen'){round={car:Math.floor(Math.random()*3),choice:null,revealed:null,stage:'pick'};renderRound();$('demo-message').textContent='Choose one of the three doors.'}}
+function renderRound(){
+  $('doors').replaceChildren();
+  for(let i=0;i<3;i++){
+    const door=document.createElement('button');door.className='door';door.type='button';
+    if(round.choice===i)door.classList.add('selected');
+    if(round.revealed===i)door.classList.add('open');
+    door.disabled=round.stage!=='pick';
+    const icon=document.createElement('span');icon.className='icon';icon.setAttribute('aria-hidden','true');
+    icon.textContent=round.stage==='finished'?(round.car===i?'🚗':'🐐'):(round.revealed===i?'🐐':'🚪');
+    const name=document.createElement('span');name.className='name';name.textContent='Door '+(i+1);
+    const flag=document.createElement('span');flag.className='flag';flag.textContent=round.revealed===i?'Host opened':round.choice===i?(round.stage==='finished'?'First pick':'Your pick'):' ';
+    door.append(icon,name,flag);door.addEventListener('click',()=>pickDoor(i));$('doors').append(door);
+  }
+  $('stay').disabled=round.stage!=='chosen';$('switch').disabled=round.stage!=='chosen';
+}
+function pickDoor(choice){
+  if(round.stage!=='pick')return;
+  round.choice=choice;
+  const options=[0,1,2].filter(door=>door!==choice&&door!==round.car);
+  round.revealed=options[Math.floor(Math.random()*options.length)];
+  round.stage='chosen';renderRound();
+  $('demo-message').textContent='The host revealed a goat behind door '+(round.revealed+1)+'. Stay or switch to the other unopened door?';
+}
+function finishRound(switching){
+  if(round.stage!=='chosen')return;
+  const finalChoice=switching?3-round.choice-round.revealed:round.choice;
+  round.stage='finished';renderRound();
+  $('demo-message').textContent=(switching?'You switched. ':'You stayed. ')+(finalChoice===round.car?'You won the car!':'You got a goat. The car was behind door '+(round.car+1)+'.');
+  $('demo-message').classList.toggle('demo-result',finalChoice===round.car);
+}
+$('new-round').addEventListener('click',()=>{round=null;$('demo-message').classList.remove('demo-result');newRound()});
+$('stay').addEventListener('click',()=>finishRound(false));
+$('switch').addEventListener('click',()=>finishRound(true));
+function workerMain(){
+  let trials=0,stay=0,total=0,batch=0;
+  function chunk(){
+    const end=Math.min(total,trials+batch);
+    for(;trials<end;trials++){
+      const car=(Math.random()*3)|0;
+      const first=(Math.random()*3)|0;
+      // With an informed host who always reveals a goat, staying wins
+      // exactly when the first pick was the car; switching wins otherwise.
+      if(car===first)stay++;
+    }
+    postMessage({trials,stay});
+    if(trials<total)setTimeout(chunk,0);
+  }
+  onmessage=event=>{total=event.data;batch=Math.min(50000,Math.max(1000,Math.ceil(total/180)));chunk()};
+}
+function stopRun(){if(worker){worker.terminate();worker=null}$('run').textContent='Run trials';$('run').classList.add('primary')}
+function onProgress(trials,stay){
+  const switchWins=trials-stay;
+  $('stay-rate').textContent=(100*stay/trials).toFixed(2)+'%';
+  $('switch-rate').textContent=(100*switchWins/trials).toFixed(2)+'%';
+  $('stay-count').textContent=fmt.format(stay)+' / '+fmt.format(trials)+' wins';
+  $('switch-count').textContent=fmt.format(switchWins)+' / '+fmt.format(trials)+' wins';
+  const percentage=100*trials/target;
+  $('fill').style.width=percentage+'%';$('progress').setAttribute('aria-valuenow',String(Math.round(percentage)));
+  $('progress-percent').textContent=percentage.toFixed(1)+'%';
+  $('progress-text').textContent=fmt.format(trials)+' / '+fmt.format(target)+' trials';
+  points.push({trials,stay:stay/trials});
+  if(points.length>500)points.splice(1,1);
+  drawChart();
+  if(trials>=target){stopRun();$('progress-text').textContent='Complete · '+fmt.format(target)+' trials'}
+}
+$('run').addEventListener('click',()=>{
+  if(worker){stopRun();$('progress-text').textContent='Stopped · '+$('progress-text').textContent;return}
+  const raw=$('trial-count').value.trim();const n=Number(raw);
+  if(!raw||!Number.isSafeInteger(n)||n<1||n>100000000){$('error').textContent='Enter a whole number from 1 to 100,000,000.';return}
+  $('error').textContent='';target=n;points=[];drawChart();
+  $('stay-rate').textContent='—';$('switch-rate').textContent='—';
+  $('stay-count').textContent='Expected: 33.33%';$('switch-count').textContent='Expected: 66.67%';
+  $('fill').style.width='0%';$('progress-percent').textContent='0%';
+  $('progress').setAttribute('aria-valuenow','0');$('progress-text').textContent='Starting…';
+  const blob=new Blob(['('+workerMain.toString()+')()'],{type:'text/javascript'});
+  const url=URL.createObjectURL(blob);
+  try{worker=new Worker(url)}catch(error){$('error').textContent='Your browser could not start the simulation worker.';stopRun();URL.revokeObjectURL(url);return}
+  URL.revokeObjectURL(url);
+  worker.onmessage=e=>onProgress(e.data.trials,e.data.stay);
+  worker.onerror=()=>{$('error').textContent='The simulation stopped unexpectedly.';stopRun()};
+  $('run').textContent='Stop';$('run').classList.remove('primary');worker.postMessage(target);
+});
+document.querySelectorAll('[data-count]').forEach(button=>button.addEventListener('click',()=>{$('trial-count').value=button.dataset.count}));
+function drawChart(){
+  const canvas=$('chart'),rect=canvas.getBoundingClientRect();if(rect.width<1)return;
+  const scale=window.devicePixelRatio||1;canvas.width=Math.round(rect.width*scale);canvas.height=Math.round(rect.height*scale);
+  const ctx=canvas.getContext('2d');ctx.scale(scale,scale);
+  const w=rect.width,h=rect.height,left=46,right=16,top=15,bottom=32,plotW=w-left-right,plotH=h-top-bottom;
+  ctx.clearRect(0,0,w,h);ctx.font='12px system-ui';ctx.textAlign='right';
+  for(const value of [0,1/3,2/3,1]){
+    const y=top+plotH*(1-value);ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);
+    ctx.strokeStyle=(value===1/3||value===2/3)?'#627693':'#344660';ctx.setLineDash((value===1/3||value===2/3)?[5,5]:[]);ctx.lineWidth=1;ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#9dafc8';ctx.fillText(Math.round(value*100)+'%',left-9,y+4);
+  }
+  ctx.textAlign='left';ctx.fillStyle='#9dafc8';ctx.fillText('0',left,h-8);
+  ctx.textAlign='right';ctx.fillText(fmt.format(target)+' trials',w-right,h-8);
+  if(!points.length)return;
+  for(const strategy of ['stay','switch']){
+    ctx.beginPath();ctx.lineWidth=2.8;ctx.lineJoin='round';ctx.strokeStyle=strategy==='stay'?'#ffba86':'#94ead0';
+    points.forEach((point,i)=>{const x=left+plotW*point.trials/target;const rate=strategy==='stay'?point.stay:1-point.stay;const y=top+plotH*(1-rate);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});
+    ctx.stroke();
+  }
+}
+newRound();window.addEventListener('resize',drawChart);drawChart();
+</script>
+</body></html>
